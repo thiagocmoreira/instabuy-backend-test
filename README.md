@@ -8,18 +8,18 @@ Este documento contém o tutorial de como rodar/utilizar a API REST, desenvolvid
   <a href="#"><img width="220" src="./docs/mysql.png" alt="MySQL"></a>
 </p>
 
-## 1. Dependências do Projeto
+# 1. Dependências do Projeto
 
 * Ruby: 2.4.1
 * Rails: 5.1.4
 
-## 2. Instalando as Dependências
+# 2. Instalando as Dependências
 
 Segue abaixo alguns links que auxiliam com tutoriais a instalação das depêndencias do projeto.
 
-### 2.1. Ruby/Rails
+## 2.1. Ruby/Rails
 
-#### 2.1.1. MacOS
+### 2.1.1. MacOS
 
 [How to Install Rails 5 on a Mac](http://blog.teamtreehouse.com/install-rails-5-mac)
 
@@ -27,17 +27,17 @@ Segue abaixo alguns links que auxiliam com tutoriais a instalação das depênde
 
 [How to Install Rails 5 on Linux](http://blog.teamtreehouse.com/installing-rails-5-linux)
 
-### 2.2. MySQL
+## 2.2. MySQL
 
-#### 2.2.1. MacOS
+### 2.2.1. MacOS
 
 [Install MySQL on OS X El Capitan](https://gist.github.com/nrollr/a8d156206fa1e53c6cd6)
 
-#### 2.2.2. Ubuntu
+### 2.2.2. Ubuntu
 
 [How To Install MySQL on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-14-04)
 
-## 3. Rodando a API
+# 3. Rodando a API
 
 Antes de tudo, para rodar o projeto deve-se clonar o repositório utilizando o comando abaixo:
 
@@ -70,9 +70,156 @@ $ rails s
 
 Após isso, nossa API já está disponível no endereço `http://localhost:3000/`.
 
-## 4. Utilizando as Rotas
+# 4. Utilizando as Rotas
 
 Para utilizar as rotas disponíveis na API, é necessário utilizar o postman para fazer as requisições. Para isto, basta acessar o [site oficial do Postman](https://www.getpostman.com/postman) e fazer o download. Outra alternativa é usar a extensão do próprio Postman para Google Chrome, disponível [neste link](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop).
 
+## 4.1. Rotas de Pessoa
 
+* `/localhost:3000/`
+    * `/person` - Lista todas as pessoas (GET)
+    * `/person/:id` - Lista a pessoa do id passado na query (GET)
+    * `/person` - Cria uma pessoa (POST)
+    * `/person` - Edita uma pessoa (PUT)
+    * `/person` - Exclui uma pessoa (DELETE)
+    * `/person/:id` - Exclui a pessoa do id passado na query (DELETE)
 
+## 4.1.1. Lista todas as pessoas (GET)
+
+Envia uma requisição `GET` para a rota `/person`
+
+### Exemplo de Resposta
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Small Paul",
+    "age": 90,
+    "cpf": "44251816299",
+    "created_at": "2017-09-24T06:45:17.000Z",
+    "updated_at": "2017-09-24T06:45:17.000Z"
+  },
+  {
+    "id": 2,
+    "name": "Meldred Merlyn",
+    "age": 76,
+    "cpf": "21499084778",
+    "created_at": "2017-09-24T06:45:17.000Z",
+    "updated_at": "2017-09-24T06:45:17.000Z"
+  }, ...
+]
+```
+
+## 4.1.2. Lista a pessoa do id passado na query (GET)
+
+Envia uma requisição `GET` para a rota `/person/:id`
+
+### Exemplo de Uso
+
+Envio de Requisição para `/person/1`
+
+### Exemplo de Resposta
+
+```json
+{
+  "id": 1,
+  "name": "Small Paul",
+  "age": 90,
+  "cpf": "44251816299",
+  "created_at": "2017-09-24T06:45:17.000Z",
+  "updated_at": "2017-09-24T06:45:17.000Z"
+}
+```
+
+## 4.1.3. Cria uma pessoa (POST)
+
+Envia uma requisição `POST` para a rota `/person` com um `body` contendo os campos necessários
+
+### Exemplo de Uso
+
+Envio de Requisição `POST` para `/person` com o body:
+
+_*Body*_
+
+```json
+{
+  "name": "Thiago Moreira",
+  "age": 21,
+  "cpf": "26974536607"
+}
+```
+
+### Exemplo de Resposta
+
+```json
+{
+  "status": "POST Success",
+  "id": 26
+}
+```
+
+## 4.1.4. Edita uma pessoa (PUT)
+
+Envia uma requisição `PUT` para a rota `/person` com um `body` contendo os campos necessários
+
+### Exemplo de Uso
+
+Envio de Requisição `PUT` para `/person` com o body:
+
+_*Body*_
+
+```json
+{
+  "id": 26,
+  "age": 20
+}
+```
+
+### Exemplo de Resposta
+
+```json
+{
+  "status": "PUT Success"
+}
+```
+
+## 4.1.4. Exclui uma pessoa (DELETE)
+
+Envia uma requisição `DELETE` para a rota `/person` com um `body` contendo os campos necessários
+
+### Exemplo de Uso
+
+Envio de Requisição `DELETE` para `/person` com o body:
+
+_*Body*_
+
+```json
+{
+  "id": 26
+}
+```
+
+### Exemplo de Resposta
+
+```json
+{
+  "status": "DELETE Success"
+}
+```
+
+## 4.1.4. Exclui a pessoa do id passado na query (DELETE)
+
+Envia uma requisição `DELETE` para a rota `/person/:id`
+
+### Exemplo de Uso
+
+Envio de Requisição `DELETE` para `/person/1`
+
+### Exemplo de Resposta
+
+```json
+{
+  "status": "DELETE Success"
+}
+```
