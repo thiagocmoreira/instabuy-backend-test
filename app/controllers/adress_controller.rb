@@ -23,12 +23,11 @@ class AdressController < ApplicationController
 
     if params[:person_id]
       @addresses = Adress.search(params[:person_id]).order('created_at DESC')
-
       respond_to do |format|
         format.json { render :json => @addresses }
       end
     else
-      render json: { status: 'Error', message: 'Error no address belongs to this id person', erros: @address.errors }, status: :unprocessable_entity
+      render json: { status: 'Error', message: 'Error: no address belongs to this id person', errors: @address.errors }, status: :unprocessable_entity
     end
 
   end
@@ -40,7 +39,7 @@ class AdressController < ApplicationController
     if @address.save
       render json: { status: 'POST Success', id: @address.id }, status: :ok
     else
-      render json: { status: 'Error', message: 'Error to register a new Address', erros: @address.errors }, status: :unprocessable_entity
+      render json: { status: 'Error', message: 'Error to register a new Address', errors: @address.errors }, status: :unprocessable_entity
     end
   end
 
