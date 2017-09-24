@@ -12,6 +12,7 @@ Este documento contém o tutorial de como rodar/utilizar a API REST, desenvolvid
 
 * Ruby: 2.4.1
 * Rails: 5.1.4
+* MySQL: 5.1.10 ou superior
 
 # 2. Instalando as Dependências
 
@@ -38,6 +39,19 @@ Segue abaixo alguns links que auxiliam com tutoriais a instalação das depênde
 [How To Install MySQL on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-14-04)
 
 # 3. Rodando a API
+
+> Para poder rodar o projeto é necessário ter uma conexão root padrão do mysql.
+>
+> Este projeto não tem senha. Caso queira mudar a sua senha, utilize os comandos:
+> 
+> MySQL 5.7.6 ou superior:
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
+```
+> MySQL 5.7.5 ou inferior:
+```sql
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
+```
 
 Antes de tudo, para rodar o projeto deve-se clonar o repositório utilizando o comando abaixo:
 
@@ -223,3 +237,211 @@ Envio de Requisição `DELETE` para `/person/1`
   "status": "DELETE Success"
 }
 ```
+
+
+## 4.2. Rotas de Endereço
+
+* `/localhost:3000/`
+    * `/address` - Lista todas os endereços (GET)
+    * `/address/:id` - Lista o endereço do id passado na query (GET)
+    * `/person/:id_person/address` - Lista os endereços de determinada pessoa (GET)
+    * `/address` - Cria um endereço (POST)
+    * `/address` - Edita um endereço (PUT)
+    * `/address` - Exclui um endereço (DELETE)
+    * `/address/:id` - Exclui o endereço do id passado na query (DELETE)
+
+## 4.2.1. Lista todas os endereços (GET)
+
+Envia uma requisição `GET` para a rota `/address`
+
+### Exemplo de Resposta
+
+```json
+[  
+  {
+    "id": 4,
+    "zipcode": "88823726",
+    "state": "Rhode Island",
+    "city": "Oldtown",
+    "street": "Macejkovic Terrace",
+    "number": 43411,
+    "created_at": "2017-09-24T06:45:17.000Z",
+    "updated_at": "2017-09-24T06:45:17.000Z",
+    "person_id": 1
+  },
+  {
+    "id": 23,
+    "zipcode": "23680909",
+    "state": "Maine",
+    "city": "Gulltown",
+    "street": "Douglas Course",
+    "number": 4711,
+    "created_at": "2017-09-24T06:45:17.000Z",
+    "updated_at": "2017-09-24T06:45:17.000Z",
+    "person_id": 3
+  }, ...
+]
+```
+
+## 4.2.2. Lista o endereço do id passado na query (GET)
+
+Envia uma requisição `GET` para a rota `/address/:id`
+
+### Exemplo de Uso
+
+Envio de Requisição para `/address/5`
+
+### Exemplo de Resposta
+
+```json
+{
+  "id": 5,
+  "zipcode": "37506784",
+  "state": "Kentucky",
+  "city": "Myr",
+  "street": "Ashton Common",
+  "number": 133,
+  "created_at": "2017-09-24T06:45:17.000Z",
+  "updated_at": "2017-09-24T06:45:17.000Z",
+  "person_id": 1
+}
+```
+
+## 4.2.3. Lista os endereços de determinada pessoa (GET)
+
+Envia uma requisição `GET` para a rota `/person/:person_id/address`
+
+### Exemplo de Uso
+
+Envio de Requisição para `/person/1/address`
+
+### Exemplo de Resposta
+
+```json
+[
+  {
+    "id": 25,
+    "zipcode": "74285277",
+    "state": "Distrito Federal",
+    "city": "Águas Claras",
+    "street": "Rua das Pitangueiras",
+    "number": 10,
+    "created_at": "2017-09-24T06:50:53.000Z",
+    "updated_at": "2017-09-24T07:05:14.000Z",
+    "person_id": 1
+  },
+  {
+    "id": 4,
+    "zipcode": "88823726",
+    "state": "Rhode Island",
+    "city": "Oldtown",
+    "street": "Macejkovic Terrace",
+    "number": 43411,
+    "created_at": "2017-09-24T06:45:17.000Z",
+    "updated_at": "2017-09-24T06:45:17.000Z",
+    "person_id": 1
+  }, ...
+]
+```
+
+## 4.2.4. Cria um endereço (POST)
+
+Envia uma requisição `POST` para a rota `/address` com um `body` contendo os campos necessários
+
+### Exemplo de Uso
+
+Envio de Requisição `POST` para `/address` com o body:
+
+
+
+_*Body*_
+
+
+```json
+{
+  "zipcode": "74285277",
+  "state": "Distrito Federal",
+  "city": "Taguatinga",
+  "street": "Praça do DI",
+  "number": 5,
+  "person_id": 1
+}
+```
+> **Obs:** O campo "person_id" deve ser o "id" de uma pessoa já cadastrada na API
+### Exemplo de Resposta
+
+```json
+{
+  "status": "POST Success",
+  "id": 40
+}
+```
+
+## 4.2.5. Edita um endereço (PUT)
+
+Envia uma requisição `PUT` para a rota `/address` com um `body` contendo os campos necessários
+
+### Exemplo de Uso
+
+Envio de Requisição `PUT` para `/address` com o body:
+
+_*Body*_
+
+```json
+{
+  "id": 26,
+  "street": "Asa Sul"
+}
+```
+
+### Exemplo de Resposta
+
+```json
+{
+  "status": "PUT Success"
+}
+```
+
+## 4.2.6. Exclui um endereço (DELETE)
+
+Envia uma requisição `DELETE` para a rota `/address` com um `body` contendo os campos necessários
+
+### Exemplo de Uso
+
+Envio de Requisição `DELETE` para `/address` com o body:
+
+_*Body*_
+
+```json
+{
+  "id": 26
+}
+```
+
+### Exemplo de Resposta
+
+```json
+{
+  "status": "DELETE Success"
+}
+```
+
+## 4.2.7. Exclui o endereço do id passado na query (DELETE)
+
+Envia uma requisição `DELETE` para a rota `/address/:id`
+
+### Exemplo de Uso
+
+Envio de Requisição `DELETE` para `/address/20`
+
+### Exemplo de Resposta
+
+```json
+{
+  "status": "DELETE Success"
+}
+```
+
+
+
+> **Nota pessoal:** Quando percebi o erro de ortografia em Address já era tarde demais :worried:
