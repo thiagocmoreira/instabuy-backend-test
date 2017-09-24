@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+25.times do
+	Person.create({
+		name: Faker::Pokemon.name,
+    age: Faker::Number.number(2),
+    cpf: Faker::Number.number(11)
+	})
+end
