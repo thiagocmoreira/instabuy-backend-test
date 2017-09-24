@@ -5,4 +5,9 @@ class Adress < ApplicationRecord
   validates :street, presence: true, length: { in: 3..60 }
   validates :number, presence:true, :numericality => { :greater_than => 0 }
   belongs_to :person
+
+  def self.search(person_id)
+    where("person_id LIKE ?", "%#{person_id}%")
+  end
 end
+

@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   delete '/person' => 'person#destroy_by_body'
   delete '/adress' => 'adress#destroy_by_body'
   # Use routes mapped on the CORS, of application.rb (get, put, delete, post)
-  resources :person, :defaults => { :format => :json }
+  resources :person, :defaults => { :format => :json } do
+    # PUT using the query
+    get '/adress' => 'adress#show_by_body'
+  end
   resources :adress, :defaults => { :format => :json }
 end

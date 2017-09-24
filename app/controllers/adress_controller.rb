@@ -17,14 +17,21 @@ class AdressController < ApplicationController
     end
   end
 
-  # # GET - List all Adresses of one person
-  # def show
-  #   @address = Adress.find(params[:id])
-    
-  #   respond_to do |format|
-  #     format.json { render :json => @address }
-  #   end
-  # end
+  # GET - List all Addresses of one person
+  def show_by_body
+    @addresses = Adress.all
+
+    if params[:person_id]
+      @addresses = Adress.search(params[:person_id]).order('created_at DESC')
+
+      respond_to do |format|
+        format.json { render :json => @addresses }
+      end
+    else
+      render json: { status: 'Error', message: 'Error no address belongs to this id person', erros: @address.errors }, status: :unprocessable_entity
+    end
+
+  end
 
   # POST - Create a new Address
   def create
@@ -86,5 +93,10 @@ class AdressController < ApplicationController
   private
     def address_delete_param
       params.permit(:id)
+    end
+
+    private
+    def address_find_param
+      params.permit(:person_id)
     end
 end
