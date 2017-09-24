@@ -1,32 +1,90 @@
 class AdressController < ApplicationController
   # GET - List all Adresses
   def index
-    @adresses = Adress.all
+    @addresses = Adress.all
 
     respond_to do |format|
-      format.json { render :json => @adresses }
+      format.json { render :json => @addresses }
     end
   end
 
-  # GET - List one Adress
+  # GET - List one Address
   def show
-    @adress = Adress.find(params[:id])
+    @address = Adress.find(params[:id])
     
     respond_to do |format|
-      format.json { render :json => @adress }
+      format.json { render :json => @address }
     end
   end
 
-  # def create
-  #   @adress = Adress.new(adress_params)
-
+  # # GET - List all Adresses of one person
+  # def show
+  #   @address = Adress.find(params[:id])
+    
   #   respond_to do |format|
-  #     format.json { render :json => @adress }
+  #     format.json { render :json => @address }
   #   end
   # end
 
+  # POST - Create a new Address
+  def create
+    @address = Adress.new(address_params)
+
+    if @address.save
+      render json: { status: 'POST Success', id: @address.id }, status: :ok
+    else
+      render json: { status: 'Error', message: 'Error to register a new Address', erros: @address.errors }, status: :unprocessable_entity
+    end
+  end
+
+  # PUT - Update one Address using the body
+  def update_by_body
+    @address = Adress.find(address_update_params[:id])
+
+    if @address.update_attributes(address_update_params)
+      render json: { status: 'PUT Success' }, status: :ok
+    else
+      render json: { status: 'Error', message:'Error to update a Address', errors: @address.errors }, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE - Destroy one Address register using the body
+  def destroy_by_body
+    @address = Adress.find(address_delete_param[:id])
+    id = @paddressid
+
+    if @address.destroy
+      render json: { status: 'DELETE Success' }, status: :ok
+    else
+      render json: { status: 'Error', message:'Error to delete a Address', errors: @address.errors }, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE - Destroy one Address register using the query
+  def destroy
+    @address = Adress.find(params[:id])
+    id = @address.id
+
+    if @address.destroy
+      render json: { status: 'DELETE Success' }, status: :ok
+    else
+      render json: { status: 'Error', message:'Error delete a Adress', errors: @address.errors }, status: :unprocessable_entity
+    end
+  end
+
+  # Encapsulated params
   private
-    def adress_params
-      params.require(:adress).permit(:zipcode, :state, :city, :street, :number)
+    def address_params
+      params.permit(:zipcode, :state, :city, :street, :number, :person_id)
+    end
+  
+  private
+    def address_update_params
+      params.permit(:id, :city)
+    end
+
+  private
+    def address_delete_param
+      params.permit(:id)
     end
 end

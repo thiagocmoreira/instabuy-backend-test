@@ -45,7 +45,19 @@ class PersonController < ApplicationController
     id = @person.id
 
     if @person.destroy
-      render json: { status: 'DELETE Success', id: id }, status: :ok
+      render json: { status: 'DELETE Success' }, status: :ok
+    else
+      render json: { status: 'Error', message:'Error deleting person', person: @person.errors }, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE - Destroy one Person register using the query
+  def destroy
+    @person = Person.find(params[:id])
+    id = @person.id
+
+    if @person.destroy
+      render json: { status: 'DELETE Success' }, status: :ok
     else
       render json: { status: 'Error', message:'Error deleting person', person: @person.errors }, status: :unprocessable_entity
     end
@@ -57,10 +69,12 @@ class PersonController < ApplicationController
       params.permit(:name, :age, :cpf)
     end
 
+  private
     def person_update_params
       params.permit(:id, :age)
     end
 
+  private
     def person_delete_param
       params.permit(:id)
     end
